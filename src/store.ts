@@ -29,13 +29,16 @@ export interface Post {
 export interface PostsStore {
   posts: Post[];
   setPosts: (posts: Post[]) => void;
+  addPost: (post: Post) => void;
 }
 
 export const usePostsStore = create(
   devtools<PostsStore>(
     (set) => ({
-      posts: [{ id: "1", title: "title_test", content: "content_test" }],
+      posts: [],
       setPosts: (posts: Post[]) => set({ posts }),
+      addPost: (post: Post) =>
+        set((state) => ({ posts: [...state.posts, post] })),
     }),
     { name: "posts", store: "posts" }
   )
