@@ -8,6 +8,11 @@ export interface UserSlice {
   setEmail: (email: string) => void;
 }
 
+export interface PostSlice {
+  username: string;
+  setUsername: (username: string) => void;
+}
+
 export const createUserSlice: StateCreator<UserSlice> = (set) => ({
   username: "",
   email: "",
@@ -15,8 +20,14 @@ export const createUserSlice: StateCreator<UserSlice> = (set) => ({
   setEmail: (email: string) => set(() => ({ email })),
 });
 
+export const createPostSlice: StateCreator<PostSlice> = (set) => ({
+  username: "",
+  setUsername: (username: string) => set(() => ({ username })),
+});
+
 export const useAppStore = create(
-  devtools<UserSlice>((...a) => ({
+  devtools<UserSlice & PostSlice>((...a) => ({
     ...createUserSlice(...a),
+    ...createPostSlice(...a),
   }))
 );
