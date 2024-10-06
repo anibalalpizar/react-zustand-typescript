@@ -30,6 +30,7 @@ export interface PostsStore {
   posts: Post[];
   setPosts: (posts: Post[]) => void;
   addPost: (post: Post) => void;
+  removePost: (id: string) => void;
 }
 
 export const usePostsStore = create(
@@ -39,6 +40,10 @@ export const usePostsStore = create(
       setPosts: (posts: Post[]) => set({ posts }),
       addPost: (post: Post) =>
         set((state) => ({ posts: [...state.posts, post] })),
+      removePost: (id: string) =>
+        set((state) => ({
+          posts: state.posts.filter((post) => post.id !== id),
+        })),
     }),
     { name: "posts", store: "posts" }
   )

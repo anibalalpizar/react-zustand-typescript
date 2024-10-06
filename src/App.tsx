@@ -22,7 +22,7 @@ function UpdateUserForm() {
 
 function App() {
   const { email, username } = useUserStore();
-  const { posts, addPost } = usePostsStore();
+  const { posts, addPost, removePost } = usePostsStore();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -65,6 +65,7 @@ function App() {
           <div key={post.id}>
             <h2>{post.title}</h2>
             <p>{post.content}</p>
+            <button onClick={() => removePost(post.id)}>Remove post</button>
           </div>
         ))}
       </div>
