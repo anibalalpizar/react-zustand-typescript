@@ -1,8 +1,8 @@
 import "./App.css";
-import { useAppStore } from "./store";
+import { useUserStore } from "./store";
 
 function UpdateUserForm() {
-  const { email, setUsername, setEmail, username } = useAppStore();
+  const { email, setUsername, setEmail, username } = useUserStore();
 
   return (
     <div>
@@ -21,7 +21,7 @@ function UpdateUserForm() {
 }
 
 function App() {
-  const { email, username } = useAppStore();
+  const { email, username } = useUserStore();
 
   return (
     <>
