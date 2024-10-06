@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import { immer } from "zustand/middleware/immer";
 
 export interface UserStore {
   username: string;
@@ -34,17 +35,20 @@ export interface PostsStore {
 }
 
 export const usePostsStore = create(
-  devtools<PostsStore>(
-    (set) => ({
+  devtools(
+    immer<PostsStore>((set) => ({
       posts: [],
       setPosts: (posts: Post[]) => set({ posts }),
       addPost: (post: Post) =>
-        set((state) => ({ posts: [...state.posts, post] })),
+        set((state) => {
+          state.posts.push(post); // Immer will handle the mutation, DON'T use push in a normal zustand store, DONT MUTATE THE STATE
+        }),
       removePost: (id: string) =>
-        set((state) => ({
-          posts: state.posts.filter((post) => post.id !== id),
-        })),
-    }),
+        set((state) => {
+          const index = state.posts.findIndex((post) => post.id === id);
+          if (index !== -1) state.posts.splice(index, 1); // Immer will handle the mutation, DON'T use splice in a normal zustand store, DONT MUTATE THE STATE
+        }),
+    })),
     { name: "posts", store: "posts" }
   )
 );
